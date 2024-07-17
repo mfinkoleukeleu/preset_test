@@ -1,0 +1,61 @@
+export default {
+  root: ({ props, context, parent }) => ({
+    class: [
+      // Font
+      'font-sans leading-none',
+
+      // Flex
+      { 'flex-1 w-[1%]': parent.instance.$name == 'InputGroup' },
+
+      // Size & Spacing
+      'h-9',
+      'm-0',
+      {
+        'px-4 py-4': props.size == 'large',
+        'px-2 py-2': props.size == 'small',
+        'p-3': props.size == null,
+      },
+
+      // Shape
+      { rounded: parent.instance.$name !== 'InputGroup' },
+      {
+        'first:rounded-l-md rounded-none last:rounded-r-md':
+          parent.instance.$name == 'InputGroup',
+      },
+      {
+        'border-0 border-y border-l last:border-r':
+          parent.instance.$name == 'InputGroup',
+      },
+      {
+        'first:ml-0 -ml-px':
+          parent.instance.$name == 'InputGroup' && !props.showButtons,
+      },
+
+      // Colors
+      'text-surface-600',
+      'placeholder:text-surface-400',
+      'bg-surface-0',
+      'border',
+      { 'border-surface-300': !props.invalid },
+
+      // Invalid State
+      { 'border-red-500': props.invalid },
+
+      // States
+      {
+        'hover:border-primary-500': !context.disabled && !props.invalid,
+        'focus:outline-none focus:ring focus:ring-primary-400/50 focus:z-10':
+          !context.disabled,
+        'bg-surface-200 text-surface-500 opacity-60 select-none pointer-events-none cursor-default':
+          context.disabled,
+      },
+
+      // Filled State *for FloatLabel
+      { filled: parent.instance?.$name == 'FloatLabel' && context.filled },
+
+      // Misc
+      'appearance-none',
+      'transition-colors duration-200',
+    ],
+  }),
+}
